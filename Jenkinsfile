@@ -23,30 +23,37 @@ pipeline {
             }
         }
 
-        stage('Dependency Check') {
-    steps {
-        dir('backend') {
-            bat 'npm audit || exit 0'
-        }
-    }
-}
-stage('SonarQube Analysis') {
-    steps {
-        script {
-            def scannerHome = tool 'SonarScanner'
-
-            withSonarQubeEnv('SonarQube') {
-                bat "${scannerHome}\\bin\\sonar-scanner.bat"
+        stage('OWASP Dependency Check') {
+            steps {
+                dependencyCheck additionalArguments: '--scan .',
+                                odcInstallation: 'DependencyCheck'
             }
         }
-    }
-}
+
+        stage('Publish OWASP Report') {
+            steps {
+                dependencyCheckPublisher(
+                    pattern: '**/dependency-check-report.xml'
+                )
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        bat "${scannerHome}\\bin\\sonar-scanner.bat"
+                    }
+                }
+            }
+        }
 
         stage('Docker Build') {
             steps {
                 bat 'docker-compose build'
             }
         }
-
     }
 }
