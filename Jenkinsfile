@@ -80,15 +80,27 @@ pipeline {
                 bat 'docker push anandita1908/smartspend-backend:latest'
             }
         }
+
+        stage('Deployment') {
+            steps {
+                bat 'docker-compose down'
+                bat 'docker-compose up -d'
+            }
+        }
     }
 
     post {
+
         success {
             echo 'Pipeline completed successfully!'
         }
 
         failure {
             echo 'Pipeline failed!'
+        }
+
+        always {
+            echo 'Pipeline execution finished.'
         }
     }
 }
