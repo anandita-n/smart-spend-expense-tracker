@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api/auth";
+const API = "http://localhost:5001/api/auth";
 
 async function register() {
     const name = prompt("Enter your name");
