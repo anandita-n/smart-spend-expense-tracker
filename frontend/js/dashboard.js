@@ -1,5 +1,5 @@
-const API = "http://localhost:5000/api/expenses";
-const BUDGET_API = "http://localhost:5000/api/budget";
+const API = "http://localhost:5001/api/expenses";
+const BUDGET_API = "http://localhost:5001/api/budget";
 
 const token = localStorage.getItem("token");
 
