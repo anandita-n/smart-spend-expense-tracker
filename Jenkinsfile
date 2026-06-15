@@ -49,11 +49,6 @@ pipeline {
                 }
             }
         }
-        stage('demo failure'){
-            steps{
-                error('intentional error to test failure handling')
-            }
-        }
 
         stage('Docker Build') {
             steps {
